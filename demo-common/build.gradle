@@ -7,16 +7,7 @@
  */
 description = 'multi project common'
 
-apply plugin: 'io.spring.dependency-management'
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
-        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-    }
 }

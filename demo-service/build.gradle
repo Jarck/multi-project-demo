@@ -4,17 +4,8 @@
 
 description = 'multi project service'
 
-apply plugin: 'io.spring.dependency-management'
-
 dependencies {
     compile project(':demo-dao')
 
     implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3'
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
-        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-    }
 }

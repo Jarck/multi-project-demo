@@ -3,8 +3,6 @@
  */
 description = 'multi project dao'
 
-apply plugin: 'io.spring.dependency-management'
-
 dependencies {
     compile project(':demo-common')
 
@@ -19,11 +17,4 @@ dependencies {
     testImplementation "com.ninja-squad:DbSetup:${dbSetupVersion}"
 
     testRuntimeOnly 'com.h2database:h2'
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
-        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-    }
 }
