@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hello.world.dao.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.hello.world.entity.Role">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="status" javaType="com.hello.world.enums.RoleStatusEnum" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+    </resultMap>
+
+    <resultMap id="roleDtoMap" type="com.hello.world.dto.result.RoleDto" extends="BaseResultMap"/>
+
+    <resultMap id="permissionDtoAssocitionMap" type="com.hello.world.dto.result.PermissionDto">
+        <id column="permission_permission_id" property="id"/>
+        <result column="permission_name" property="name"/>
+        <result column="permission_permission" property="permission"/>
+        <result column="permission_resourceType" property="resourceType"/>
+        <result column="permission_available" javaType="com.hello.world.enums.PermissionAvailableEnum" property="available"/>
+    </resultMap>
+
+    <resultMap id="roleAndPermissions" type="com.hello.world.dto.result.RolePermissionsDto" extends="roleDtoMap">
+        <collection property="permissions" resultMap="permissionDtoAssocitionMap"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, status, created_at, updated_at, remark
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="roleDtoMap">
+        select
+        <include refid="Base_Column_List"/>
+        from role
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from role
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insertRole" useGeneratedKeys="true" keyProperty="id">
+        insert into role (name, remark)
+        values (#{name}, #{remark})
+    </insert>
+
+    <update id="update" parameterType="com.hello.world.entity.Role">
+        update role
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="findAll" resultMap="roleDtoMap">
+        select
+        <include refid="Base_Column_List"/>
+        from role
+        where status = 1
+    </select>
+
+    <select id="searchWithUserId" parameterType="java.lang.Long" resultMap="roleDtoMap">
+        select
+          role.*
+        from role left join user_role on role.id = user_role.role_id
+        where user_role.user_id = #{userId}
+    </select>
+
+    <select id="searchWithName" parameterType="java.lang.String" resultMap="roleDtoMap">
+        select
+        <include refid="Base_Column_List"/>
+        from role
+        where name like concat(#{name}, '%')
+    </select>
+
+    <select id="searchRoleAndPermissions" resultMap="roleAndPermissions">
+        select role.id, role.name, role.status, role.remark, role.created_at, role.updated_at,
+        permission.id as permission_permission_id, permission.name as permission_name, permission.permission as permission_permission,
+        permission.resource_type as permission_resourceType, permission.available as permission_available,
+        permission.created_at as permission_created_at, permission.updated_at as permission_updated_at
+        from role
+        left join role_permission
+        on role.id = role_permission.role_id
+        left join permission
+        on role_permission.permission_id = permission.id
+        <where>
+            <if test="id != null and id !=''">
+                role.id = #{id}
+            </if>
+        </where>
+    </select>
+</mapper>
