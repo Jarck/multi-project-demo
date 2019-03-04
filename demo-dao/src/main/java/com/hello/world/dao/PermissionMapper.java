@@ -1,5 +1,6 @@
 package com.hello.world.dao;
 
+import com.hello.world.dto.create.CreatePermissionDto;
 import com.hello.world.entity.Permission;
 import com.hello.world.dto.result.PermissionDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -46,7 +47,7 @@ public interface PermissionMapper {
    * @param permission permission
    * @return 影响的行数
    */
-  Long insertPermission(Permission permission);
+  Long insertPermission(CreatePermissionDto permission);
 
   /**
    * 查询所有权限

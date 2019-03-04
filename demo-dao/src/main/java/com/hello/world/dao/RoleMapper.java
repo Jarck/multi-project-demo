@@ -1,5 +1,6 @@
 package com.hello.world.dao;
 
+import com.hello.world.dto.create.CreateRoleDto;
 import com.hello.world.entity.Role;
 import com.hello.world.dto.result.RoleDto;
 import com.hello.world.dto.result.RolePermissionsDto;
@@ -31,7 +32,7 @@ public interface RoleMapper {
    * @param role role
    * @return 影响的行数
    */
-  Long insertRole(Role role);
+  Long insertRole(CreateRoleDto role);
 
   /**
    * 更新

@@ -1,6 +1,7 @@
 package com.hello.world.dao;
 
 import com.hello.world.dto.condition.SearchCompanyDto;
+import com.hello.world.dto.create.CreateCompanyDto;
 import com.hello.world.dto.result.CompanyDto;
 import com.hello.world.entity.Company;
 import org.apache.ibatis.annotations.Mapper;
@@ -31,7 +32,7 @@ public interface CompanyMapper {
    * @param company 公司
    * @return 影响的行数
    */
-  Long createCompany(Company company);
+  Long createCompany(CreateCompanyDto company);
 
   /**
    * 更新

@@ -10,7 +10,12 @@
         <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
     </resultMap>
 
-    <resultMap id="roleDtoMap" type="com.hello.world.dto.result.RoleDto" extends="BaseResultMap"/>
+    <resultMap id="roleDtoMap" type="com.hello.world.dto.result.RoleDto">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="status" javaType="com.hello.world.enums.RoleStatusEnum" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
 
     <resultMap id="permissionDtoAssocitionMap" type="com.hello.world.dto.result.PermissionDto">
         <id column="permission_permission_id" property="id"/>
@@ -71,29 +76,29 @@
         select
           role.*
         from role left join user_role on role.id = user_role.role_id
-        where user_role.user_id = #{userId}
+        where role.status = 1 and user_role.user_id = #{userId}
     </select>
 
     <select id="searchWithName" parameterType="java.lang.String" resultMap="roleDtoMap">
         select
         <include refid="Base_Column_List"/>
         from role
-        where name like concat(#{name}, '%')
+        where status = 1 and name like concat(#{name}, '%')
     </select>
 
     <select id="searchRoleAndPermissions" resultMap="roleAndPermissions">
-        select role.id, role.name, role.status, role.remark, role.created_at, role.updated_at,
-        permission.id as permission_permission_id, permission.name as permission_name, permission.permission as permission_permission,
-        permission.resource_type as permission_resourceType, permission.available as permission_available,
-        permission.created_at as permission_created_at, permission.updated_at as permission_updated_at
+        select role.id, role.name, role.status, role.remark,
+        permission.id as permission_permission_id, permission.name as permission_name,
+        permission.permission as permission_permission,
+        permission.resource_type as permission_resourceType, permission.available as permission_available
         from role
         left join role_permission
         on role.id = role_permission.role_id
         left join permission
-        on role_permission.permission_id = permission.id
+        on role_permission.permission_id = permission.id and permission.available = 1
         <where>
             <if test="id != null and id !=''">
-                role.id = #{id}
+                and role.id = #{id}
             </if>
         </where>
     </select>

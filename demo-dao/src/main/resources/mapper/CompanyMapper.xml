@@ -14,13 +14,20 @@
         <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
     </resultMap>
 
-    <resultMap id="companyDtoMap" type="com.hello.world.dto.result.CompanyDto" extends="BaseResultMap"/>
+    <resultMap id="companyDtoMap" type="com.hello.world.dto.result.CompanyDto">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="short_name" jdbcType="VARCHAR" property="shortName"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="link_name" jdbcType="VARCHAR" property="linkName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="city_id" jdbcType="INTEGER" property="cityId"/>
+        <result column="status" javaType="com.hello.world.enums.CompanyStatusEnum" property="status"/>
+    </resultMap>
 
-    <resultMap id="cityDtoAssocitionMap" type="com.hello.world.entity.City">
+    <resultMap id="cityDtoAssocitionMap" type="com.hello.world.dto.result.CityDto">
         <id column="city_city_id" property="id"/>
         <result column="city_name" property="name"/>
-        <result column="city_created_at" property="createdAt"/>
-        <result column="city_updated_at" property="updatedAt"/>
     </resultMap>
 
     <resultMap id="companyAndCity" type="com.hello.world.dto.result.CompanyDto" extends="companyDtoMap">
@@ -36,7 +43,7 @@
         where id = #{id,jdbcType=INTEGER}
      </delete>
 
-    <insert id="createCompany" parameterType="com.hello.world.entity.Company" useGeneratedKeys="true" keyProperty="id">
+    <insert id="createCompany" useGeneratedKeys="true" keyProperty="id">
         insert into company (name, short_name, address, link_name, phone, city_id)
         values (#{name}, #{shortName}, #{address}, #{linkName}, #{phone}, #{cityId})
     </insert>
@@ -73,58 +80,55 @@
         select
         <include refid="Base_Column_List"/>
         from company
-        where name like concat(#{name}, '%')
+        where status = 1 and name like concat(#{name}, '%')
     </select>
 
     <select id="searchWithCityId" parameterType="java.lang.Long" resultMap="companyDtoMap">
         select
         <include refid="Base_Column_List"/>
         from company
-        where city_id = #{cityId}
+        where status = 1 and city_id = #{cityId}
     </select>
 
     <select id="searchCondition" parameterType="com.hello.world.dto.condition.SearchCompanyDto" resultMap="companyDtoMap">
         select
         <include refid="Base_Column_List"/>
         from company
-        <where>
-            <if test="name != null and name !=''">
-                name like concat(#{name}, '%')
-            </if>
-            <if test="cityId != null and cityId !=''">
-                and city_id = #{cityId}
-            </if>
-        </where>
+        where status = 1
+        <if test="name != null and name !=''">
+            and name like concat(#{name}, '%')
+        </if>
+        <if test="cityId != null and cityId !=''">
+            and city_id = #{cityId}
+        </if>
     </select>
 
     <select id="searchCompanyAndCity" parameterType="com.hello.world.dto.condition.SearchCompanyDto" resultMap="companyAndCity">
-        select company.id, company.name, company.short_name, company.address, company.link_name, company.phone, company.city_id,
-        company.status, company.created_at, company.updated_at,
-        city.id as city_city_id, city.name as city_name, city.created_at as city_created_at, city.updated_at as city_updated_at
+        select company.id, company.name, company.short_name, company.address, company.link_name,
+        company.phone, company.city_id, company.status,
+        city.id as city_city_id, city.name as city_name
         from company
         left join city
         on company.city_id = city.id
-        <where>
-            <if test="name != null and name !=''">
-                company.name like concat(#{name}, '%')
-            </if>
-            <if test="cityId != null and cityId !=''">
-                and company.city_id = #{cityId}
-            </if>
-        </where>
+        where company.status = 1
+        <if test="name != null and name !=''">
+            and company.name like concat(#{name}, '%')
+        </if>
+        <if test="cityId != null and cityId !=''">
+            and company.city_id = #{cityId}
+        </if>
     </select>
 
     <select id="searchCompanyAndCityWithId" resultMap="companyAndCity">
-        select company.id, company.name, company.short_name, company.address, company.link_name, company.phone, company.city_id,
-        company.status, company.created_at, company.updated_at,
-        city.id as city_city_id, city.name as city_name, city.created_at as city_created_at, city.updated_at as city_updated_at
+        select company.id, company.name, company.short_name, company.address, company.link_name,
+        company.phone, company.city_id,company.status,
+        city.id as city_city_id, city.name as city_name
         from company
         left join city
         on company.city_id = city.id
-        <where>
-            <if test="id != null and id !=''">
-                company.id = #{id}
-            </if>
-        </where>
+        where company.status = 1
+        <if test="id != null and id !=''">
+            and company.id = #{id}
+        </if>
     </select>
 </mapper>

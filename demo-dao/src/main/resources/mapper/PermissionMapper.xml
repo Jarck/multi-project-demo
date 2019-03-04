@@ -11,7 +11,13 @@
         <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
     </resultMap>
 
-    <resultMap id="permissionDtoMap" type="com.hello.world.dto.result.PermissionDto" extends="BaseResultMap"/>
+    <resultMap id="permissionDtoMap" type="com.hello.world.dto.result.PermissionDto">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="permission" jdbcType="VARCHAR" property="permission"/>
+        <result column="resource_type" jdbcType="VARCHAR" property="resourceType"/>
+        <result column="available" javaType="com.hello.world.enums.PermissionAvailableEnum" property="available"/>
+    </resultMap>
 
     <sql id="Base_Column_List">
         id, name, permission, resource_type, available, created_at, updated_at

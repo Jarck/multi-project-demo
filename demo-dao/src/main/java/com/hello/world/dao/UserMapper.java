@@ -1,5 +1,6 @@
 package com.hello.world.dao;
 
+import com.hello.world.dto.create.CreateUserDto;
 import com.hello.world.entity.User;
 import com.hello.world.dto.condition.SearchUserDto;
 import com.hello.world.dto.result.UserDto;
@@ -39,7 +40,7 @@ public interface UserMapper {
    * @param user user
    * @return 影响的行数
    */
-  Long insertUser(User user);
+  Long insertUser(CreateUserDto user);
 
   /**
    * 更新

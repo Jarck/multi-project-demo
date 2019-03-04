@@ -1,5 +1,6 @@
 package com.hello.world.dao;
 
+import com.hello.world.TestDaoConfiguration;
 import com.hello.world.dto.condition.SearchCityDto;
 import com.hello.world.dto.create.CreateCityDto;
 import com.hello.world.dto.result.CityDto;
@@ -15,7 +16,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -28,6 +31,7 @@ import java.util.List;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@ContextConfiguration(classes = TestDaoConfiguration.class)
 public class CityMapperTest {
   private static DbSetupTracker dbSetupTracker = new DbSetupTracker();
 
@@ -60,6 +64,7 @@ public class CityMapperTest {
   }
 
   @Test
+  @Transactional
   public void testInsertCity() {
     CreateCityDto createCityDto = new CreateCityDto();
     createCityDto.setName("上海");
@@ -70,6 +75,7 @@ public class CityMapperTest {
   }
 
   @Test
+  @Transactional
   public void testSearchWithName() {
     CreateCityDto city = insertCity();
 
@@ -80,6 +86,7 @@ public class CityMapperTest {
   }
 
   @Test
+  @Transactional
   public void testSearchCondition() {
     CreateCityDto city = insertCity();
 
