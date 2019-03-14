@@ -2,6 +2,7 @@ package com.hello.world.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hello.world.dto.create.CreateRoleDto;
 import com.hello.world.entity.Role;
 import com.hello.world.dao.RoleMapper;
 import com.hello.world.dto.PageDto;
@@ -33,15 +34,13 @@ public class RoleServiceImpl implements IRoleService {
     PageHelper.orderBy(pageDto.getOrderBy() + " " + (pageDto.isDesc() ? "desc" : "asc"));
 
     List<RoleDto> roleList = roleMapper.findAll();
-    PageInfo<RoleDto> rolePageInfo = new PageInfo<>(roleList);
 
-    return rolePageInfo;
+    return new PageInfo<>(roleList);
   }
 
   @Override
   public RoleDto searchWithId(Long roleId) {
-    RoleDto roleDto = roleMapper.selectByPrimaryKey(roleId);
-    return roleDto;
+    return roleMapper.selectByPrimaryKey(roleId);
   }
 
   @Override
@@ -60,7 +59,7 @@ public class RoleServiceImpl implements IRoleService {
   }
 
   @Override
-  public RoleDto createRole(Role role) {
+  public RoleDto createRole(CreateRoleDto role) {
     roleMapper.insertRole(role);
     return roleMapper.selectByPrimaryKey(role.getId());
   }

@@ -1,5 +1,6 @@
 package com.hello.world.service.impl;
 
+import com.hello.world.dto.create.CreatePermissionDto;
 import com.hello.world.entity.Permission;
 import com.hello.world.service.IPermissionService;
 import com.hello.world.dao.PermissionMapper;
@@ -45,7 +46,7 @@ public class PermissionServiceImpl implements IPermissionService {
   }
 
   @Override
-  public PermissionDto createPermission(Permission permission) {
+  public PermissionDto createPermission(CreatePermissionDto permission) {
     permissionMapper.insertPermission(permission);
     return permissionMapper.selectByPrimaryKey(permission.getId());
   }

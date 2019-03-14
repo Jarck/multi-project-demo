@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.hello.world.dao.CompanyMapper;
 import com.hello.world.dto.PageDto;
 import com.hello.world.dto.condition.SearchCompanyDto;
+import com.hello.world.dto.create.CreateCompanyDto;
 import com.hello.world.dto.result.CompanyDto;
 import com.hello.world.entity.Company;
 import com.hello.world.service.ICompanyService;
@@ -25,9 +26,7 @@ public class CompanyServiceImpl implements ICompanyService {
 
   @Override
   public CompanyDto searchWithId(Long companyId) {
-    CompanyDto companyDto = companyMapper.searchCompanyAndCityWithId(companyId);
-
-    return companyDto;
+    return companyMapper.searchCompanyAndCityWithId(companyId);
   }
 
   @Override
@@ -37,23 +36,17 @@ public class CompanyServiceImpl implements ICompanyService {
 
   @Override
   public List<CompanyDto> searchWithName(String name) {
-    List<CompanyDto> companyList = companyMapper.searchWithName(name);
-
-    return companyList;
+    return companyMapper.searchWithName(name);
   }
 
   @Override
   public List<CompanyDto> searchWithCityId(Long cityId) {
-    List<CompanyDto> companyList = companyMapper.searchWithCityId(cityId);
-
-    return companyList;
+    return companyMapper.searchWithCityId(cityId);
   }
 
   @Override
   public List<CompanyDto> searchCondition(SearchCompanyDto searchCompanyDto) {
-    List<CompanyDto> companyList = companyMapper.searchCompanyAndCity(searchCompanyDto);
-
-    return companyList;
+    return companyMapper.searchCompanyAndCity(searchCompanyDto);
   }
 
   @Override
@@ -63,14 +56,12 @@ public class CompanyServiceImpl implements ICompanyService {
 
     List<CompanyDto> companyList = companyMapper.searchCompanyAndCity(searchCompanyDto);
 
-    PageInfo<CompanyDto> companyPage = new PageInfo<>(companyList);
-
-    return companyPage;
+    return new PageInfo<>(companyList);
   }
 
   @Override
-  public CompanyDto createCompany(Company company) {
-    long i = companyMapper.createCompany(company);
+  public CompanyDto createCompany(CreateCompanyDto company) {
+    companyMapper.createCompany(company);
 
     return companyMapper.searchCompanyAndCityWithId(company.getId());
   }
@@ -83,7 +74,7 @@ public class CompanyServiceImpl implements ICompanyService {
       throw new NotFoundException("公司不存在");
     }
 
-    long i = companyMapper.update(company);
+    companyMapper.update(company);
 
     return companyMapper.searchCompanyAndCityWithId(company.getId());
   }

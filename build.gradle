@@ -48,6 +48,7 @@ subprojects {
         mybatisVersion = '1.3.1'
         lombokVersion = '1.18.6'
         dbSetupVersion = '2.1.0'
+        pagehelperVersion = '1.2.3'
     }
     
     repositories {

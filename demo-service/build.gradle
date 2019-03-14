@@ -7,5 +7,13 @@ description = 'multi project service'
 dependencies {
     compile project(':demo-dao')
 
-    implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.2.3'
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
+    implementation "com.github.pagehelper:pagehelper-spring-boot-starter:${pagehelperVersion}"
+
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "org.mybatis.spring.boot:mybatis-spring-boot-starter-test:${mybatisVersion}"
+
+    testRuntimeOnly 'com.h2database:h2'
 }

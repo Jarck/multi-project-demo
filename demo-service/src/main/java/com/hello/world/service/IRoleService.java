@@ -1,6 +1,7 @@
 package com.hello.world.service;
 
 import com.github.pagehelper.PageInfo;
+import com.hello.world.dto.create.CreateRoleDto;
 import com.hello.world.entity.Role;
 import com.hello.world.dto.PageDto;
 import com.hello.world.dto.result.RoleDto;
@@ -65,7 +66,7 @@ public interface IRoleService {
    * @param role 角色
    * @return 影响行数
    */
-  RoleDto createRole(Role role);
+  RoleDto createRole(CreateRoleDto role);
 
   /**
    * 更新角色

@@ -1,5 +1,6 @@
 package com.hello.world.service;
 
+import com.hello.world.dto.create.CreatePermissionDto;
 import com.hello.world.entity.Permission;
 import com.hello.world.dto.result.PermissionDto;
 import org.apache.ibatis.javassist.NotFoundException;
@@ -56,7 +57,7 @@ public interface IPermissionService {
    * @param permission 权限
    * @return 影响行数
    */
-  PermissionDto createPermission(Permission permission);
+  PermissionDto createPermission(CreatePermissionDto permission);
 
   /**
    * 更新权限

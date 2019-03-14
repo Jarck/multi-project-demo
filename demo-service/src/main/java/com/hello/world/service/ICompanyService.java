@@ -2,6 +2,7 @@ package com.hello.world.service;
 
 import com.github.pagehelper.PageInfo;
 import com.hello.world.dto.PageDto;
+import com.hello.world.dto.create.CreateCompanyDto;
 import com.hello.world.dto.result.CompanyDto;
 import com.hello.world.dto.condition.SearchCompanyDto;
 import com.hello.world.entity.Company;
@@ -69,7 +70,7 @@ public interface ICompanyService {
    * @param company 公司
    * @return 公司
    */
-  CompanyDto createCompany(Company company);
+  CompanyDto createCompany(CreateCompanyDto company);
 
   /**
    * 更新公司

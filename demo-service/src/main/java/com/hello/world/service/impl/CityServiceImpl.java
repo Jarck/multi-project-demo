@@ -26,23 +26,17 @@ public class CityServiceImpl implements ICityService {
 
   @Override
   public CityDto searchWithId(Long cityId) {
-    CityDto cityDto = cityMapper.selectByPrimaryKey(cityId);
-
-    return cityDto;
+    return cityMapper.selectByPrimaryKey(cityId);
   }
 
   @Override
   public List<CityDto> searchWithName(String cityName) {
-    List<CityDto> cityList = cityMapper.searchWithName(cityName);
-
-    return cityList;
+    return cityMapper.searchWithName(cityName);
   }
 
   @Override
   public List<CityDto> searchWithCondition(SearchCityDto searchCityDto) {
-    List<CityDto> cityList = cityMapper.searchCondition(searchCityDto);
-
-    return cityList;
+    return cityMapper.searchCondition(searchCityDto);
   }
 
   @Override
@@ -52,14 +46,12 @@ public class CityServiceImpl implements ICityService {
 
     List<CityDto> cityList = cityMapper.searchCondition(searchCityDto);
 
-    PageInfo<CityDto> cityPageInfo = new PageInfo<>(cityList);
-
-    return cityPageInfo;
+    return new PageInfo<>(cityList);
   }
 
   @Override
   public CityDto createCity(CreateCityDto city) {
-    long i = cityMapper.insertCity(city);
+    cityMapper.insertCity(city);
     return cityMapper.selectByPrimaryKey(city.getId());
   }
 
@@ -71,7 +63,7 @@ public class CityServiceImpl implements ICityService {
       throw new NotFoundException("城市不存在");
     }
 
-    long i = cityMapper.update(city);
+    cityMapper.update(city);
 
     return cityMapper.selectByPrimaryKey(city.getId());
   }
